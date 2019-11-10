@@ -18,13 +18,12 @@ LABEL org.label-schema.name="Java API Compliance Checker Alpine Docker Image" \
       com.microscaling.license="MIT"
 
 VOLUME /workspace
+WORKDIR /workspace
 
 RUN apk add --no-cache make perl
 RUN wget -q -O - "https://github.com/lvc/japi-compliance-checker/archive/${JAPI_VERSION}.tar.gz" | tar -C /tmp -xzf - && \
   cd "/tmp/japi-compliance-checker-${JAPI_VERSION}" && \
   make install && \
-  rm -rf "/tmp/japi-compliance-checker-${JAPI_VERSION}" && \
-  adduser -D japi
+  rm -rf "/tmp/japi-compliance-checker-${JAPI_VERSION}"
 
-USER japi
 ENTRYPOINT ["japi-compliance-checker"]
